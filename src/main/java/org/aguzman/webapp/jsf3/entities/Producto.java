@@ -1,6 +1,7 @@
 package org.aguzman.webapp.jsf3.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -10,11 +11,23 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "El campo nombre no puede ser vacio!")
     private String nombre;
+    @NotNull
+    @Min(5)
+    @Max(100000)
     private Integer precio;
+    @NotEmpty
+    @Size(min=4, max = 10)
     private String sku;
+    @NotNull
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Categoria categoria;
+
     public Producto() {
     }
 
@@ -60,5 +73,29 @@ public class Producto {
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    //@PrePersist
+    public void prePersist(){
+        this.fechaRegistro=LocalDate.now();
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", precio=" + precio +
+                ", sku='" + sku + '\'' +
+                ", fechaRegistro=" + fechaRegistro +
+                '}';
     }
 }

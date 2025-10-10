@@ -7,7 +7,7 @@ import jakarta.persistence.PersistenceContext;
 
 @RequestScoped
 public class ProducerEntityManager {
-    @PersistenceContext(name = "ejemploJpa")
+    @PersistenceContext(name = "DockerMysql")
     private EntityManager em;
 
     @Produces
