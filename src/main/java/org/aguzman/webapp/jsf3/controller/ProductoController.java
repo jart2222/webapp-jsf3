@@ -12,6 +12,7 @@ import org.aguzman.webapp.jsf3.entities.Categoria;
 import org.aguzman.webapp.jsf3.entities.Producto;
 import org.aguzman.webapp.jsf3.services.ProductoService;
 import java.util.List;
+import java.util.ResourceBundle;
 
 @Model
 public class ProductoController {
@@ -25,17 +26,19 @@ public class ProductoController {
     @Inject
     private ProducerResources facesContext;
 
+    @Inject
+    private ResourceBundle bundle;
+
     @Produces
     @Model
     public String titulo(){
-        return "Hola mundo JavaServer Faces 3.0";
+        return bundle.getString("producto.texto.titulo");
     }
 
     @Produces
     @RequestScoped
     @Named("listado")
     public List<Producto> findAll(){
-        //return Arrays.asList(new Producto("peras"), new Producto("manzanas"), new Producto("mandarina"));
         return service.listar();
     }
 
@@ -62,12 +65,10 @@ public class ProductoController {
         System.out.println(producto);
         service.guardar(producto);
         if(producto.getId()!=null && producto.getId()>0){
-            facesContext.getFacesContext().addMessage(null, new FacesMessage("Producto "+ producto.getNombre()+ " actualizado con exito!"));
+            facesContext.getFacesContext().addMessage(null, new FacesMessage(String.format(bundle.getString("producto.mensaje.editar"),producto.getNombre())));
         }else {
-            facesContext.getFacesContext().addMessage(null, new FacesMessage("Producto "+ producto.getNombre()+ " creado con exito!"));
+            facesContext.getFacesContext().addMessage(null, new FacesMessage(String.format(bundle.getString("producto.mensaje.crear"),producto.getNombre())));
         }
-
-
         return "index.xhtml?faces-redirect=true";
     }
 
@@ -78,7 +79,7 @@ public class ProductoController {
 
     public String eliminar(Producto producto){
         service.eliminar(producto.getId());
-        facesContext.getFacesContext().addMessage(null, new FacesMessage("Producto "+ producto.getNombre()+ " eliminado con exito!"));
+        facesContext.getFacesContext().addMessage(null, new FacesMessage(String.format(bundle.getString("producto.mensaje.eliminar"),producto.getNombre())));
         return "index.xhtml?faces-redirect=true";
     }
 

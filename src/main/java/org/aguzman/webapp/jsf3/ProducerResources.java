@@ -2,11 +2,14 @@ package org.aguzman.webapp.jsf3;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Produces;
 import jakarta.faces.context.FacesContext;
-import jakarta.ws.rs.Produces;
+import jakarta.inject.Named;
 
-@Produces
-@RequestScoped
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+@ApplicationScoped
 public class ProducerResources {
     private FacesContext facesContext;
 
@@ -21,11 +24,20 @@ public class ProducerResources {
         this.facesContext = facesContext;
     }
 
+    @Produces
     @RequestScoped
     public FacesContext beanFacesContext(){
         FacesContext facesContext=FacesContext.getCurrentInstance();
         facesContext.getExternalContext().getFlash().setKeepMessages(true);
         return facesContext;
     }
+
+    @Produces
+    @Named("msg")
+    public ResourceBundle  beanBundle(){
+        Locale locale=FacesContext.getCurrentInstance().getViewRoot().getLocale();
+        return ResourceBundle.getBundle("messages", locale);
+    }
+
 
 }
