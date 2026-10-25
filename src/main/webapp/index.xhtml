@@ -3,6 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/layouts/main.xhtml"
 
 >
@@ -11,91 +12,54 @@
     <ui:define name="content">
 
 
-        <h:panelGrid border="1" class="table">
+        <p:panelGrid columns="1" >
             <f:facet name="header">
                 <h:outputText value="#{titulo}"/>
             </f:facet>
             <h:form id="crearForm">
-                <h:commandButton value="#{msg['navbar.texto.crear']}" action="form.xhtml" class="btn btn-primary my-2"/>
+                <p:commandButton value="#{msg['navbar.texto.crear']}" action="form.xhtml" styleClass="ui-button-success p-my-2" size="small"/>
             </h:form>
             <h:outputText value="#{msg['producto.texto.noexiste']}" rendered="#{empty listado}"
                           class="alert alert-warning"/>
 
-            <h:dataTable value="#{listado}" var="prod" rendered="#{not empty listado}"
-                         class="table table-hover table-striped">
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
+            <p:dataTable value="#{listado}" var="prod" rendered="#{not empty listado}">
+                <p:column headerText="">
                     <h:outputText value="#{msg['producto.id']}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.nombre']}"/>
-                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['producto.nombre']}">
                     <h:outputText value="#{prod.nombre}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.sku']}"/>
-                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['producto.sku']}">
                     <h:outputText value="#{prod.sku}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.precio']}"/>
-                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['producto.precio']}">
                     <h:outputText value="#{prod.precio}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.fechaRegistro']}"/>
-                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['producto.fechaRegistro']}">
                     <h:outputText value="#{prod.fechaRegistro}">
                         <f:convertDateTime type="localDate" pattern="dd/MM/yyyy"/>
                     </h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.categoria']}"/>
-                    </f:facet>
+                </p:column>
+                <p:column headerText="#{msg['producto.categoria']}">
                     <h:outputText value="#{prod.categoria.nombre}"/>
-                </h:column>
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.boton.editar']}"/>
-                    </f:facet>
-                    <h:form id="editarForm">
-                        <h:commandLink value="#{msg['producto.boton.editar']}" action="#{productoController.editar(prod.id)}"
-                                       class="btn btn-sm btn-success">
-                        </h:commandLink>
-                    </h:form>
-                </h:column>
+                </p:column>
+                <p:column headerText="#{msg['producto.boton.editar']}">
+                    <p:linkButton value="#{msg['producto.boton.editar']}" outcome="form"
+                                  styleClass="ui-button-success" size="small">
+                        <f:param name="id" value="#{prod.id}"/>
+                    </p:linkButton>
+                </p:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.boton.editar']}"/>
-                    </f:facet>
-                    <h:form id="editarForm2">
-                        <h:link value="#{msg['producto.boton.editar']}" outcome="form" class="btn btn-sm btn-info">
-                            <f:param name="id" value="#{prod.id}"></f:param>
-                        </h:link>
-                    </h:form>
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{msg['producto.boton.eliminar']}"/>
-                    </f:facet>
+                <p:column headerText="#{msg['producto.boton.eliminar']}">
                     <h:form id="eliminarForm">
-                        <h:commandLink value="#{msg['producto.boton.eliminar']}" action="#{productoController.eliminar(prod)}"
-                                       class="btn btn-sm btn-danger"
-                                       onclick="return confirm('esta seguro que desea eliminar?')">
-                        </h:commandLink>
+                        <p:commandButton value="#{msg['producto.boton.eliminar']}"
+                                         action="#{productoController.eliminar(prod)}"
+                                         styleClass="ui-button-danger" size="small"
+                                         onclick="return confirm('esta seguro que desea eliminar?')"/>
                     </h:form>
-                </h:column>
+                </p:column>
 
-            </h:dataTable>
-        </h:panelGrid>
+            </p:dataTable>
+        </p:panelGrid>
     </ui:define>
 </ui:composition>

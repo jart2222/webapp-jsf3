@@ -3,6 +3,7 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/layouts/main.xhtml"
 
 >
@@ -19,7 +20,7 @@
         </f:facet>
         <h:link outcome="index" value="#{msg['producto.boton.volver']}" class="btn btn-sm btn-primary my-2" />
         <h:form>
-            <h:panelGrid columns="3" class="table table-hover table-striped">
+            <h:panelGrid columns="3">
                 <h:outputLabel value="#{msg['producto.nombre']}" for="nombre" class="col-form-label"/>
                 <h:inputText id="nombre" value="#{producto.nombre}" label="Nombre" class="form-control"/>
                 <h:message for="nombre" style="color:red;"/>
@@ -48,7 +49,7 @@
                 </h:selectOneMenu>
                 <h:message for="categoria" style="color:red;"/>
 
-                <h:commandButton value="#{producto.id>0? msg['producto.boton.editar']:msg['producto.boton.crear']}" action="#{productoController.guardar}" class="btn btn-primary" />
+                <p:commandButton value="#{producto.id>0? msg['producto.boton.editar']:msg['producto.boton.crear']}" action="#{productoController.guardar}" styleClass="ui-button-success" size="small" update="@form"/>
                 <h:inputHidden value="#{producto.id}"/>
                 <p>&#160;</p>
             </h:panelGrid>
